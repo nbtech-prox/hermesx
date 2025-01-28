@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem para Zap</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .whatsapp-green {
+            background-color: #25D366;
+        }
+        .nav-tab {
+            transition: all 0.3s ease;
+        }
+        .nav-tab:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-tab.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .white-icon {
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
+            font-size: 2.2rem;
+            color: white;
+        }
+        .logo-text {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: white;
+            filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.4));
+        }
+        .logo-text strong {
+            font-weight: 1000;
+            -webkit-text-stroke: 2px white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-[Roboto]">
+    <nav class="whatsapp-green shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <a href="{{ url_for('main.index') }}" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                        <span class="white-icon">🏛️</span>
+                        <span class="logo-text"><strong>H</strong>ermes<strong>X</strong></span>
+                    </a>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#individual" class="nav-tab text-white px-4 py-2 rounded-lg transition">Individual</a>
+                    <a href="#grupo" class="nav-tab text-white px-4 py-2 rounded-lg transition">Grupo</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="mb-6 p-4 rounded-lg animate-fade-in
+                    {% if category == 'success' %}bg-green-100 text-green-800
+                    {% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        function initializeTabs() {
+            const hash = window.location.hash.substring(1) || 'individual';
+            showTab(hash);
+        }
+
+        function showTab(tabName) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Mostrar aba selecionada
+            const targetTab = document.getElementById(`${tabName}-content`);
+            if(targetTab) {
+                targetTab.classList.remove('hidden');
+                targetTab.classList.add('animate-fade-in');
+            }
+            
+            // Atualizar estilo das abas
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                const tabHref = tab.getAttribute('href').substring(1);
+                tab.classList.toggle('bg-[#128C7E]', tabHref === tabName);
+                tab.classList.toggle('font-semibold', tabHref === tabName);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTabs();
+            
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const newHash = e.target.getAttribute('href').substring(1);
+                    window.location.hash = newHash;
+                    showTab(newHash);
+                });
+            });
+        });
+
+        window.addEventListener('hashchange', () => {
+            const newHash = window.location.hash.substring(1);
+            showTab(newHash);
+        });
+    </script>
+</body>
+</html>

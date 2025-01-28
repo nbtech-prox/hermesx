@@ -1,0 +1,5 @@
+2025/01/28-12:15:00.101 10fc2f Reusing MANIFEST /mnt/projetos/hermesx/chrome_data/Default/Local Storage/leveldb/MANIFEST-000001
+2025/01/28-12:15:00.104 10fc2f Recovering log #16
+2025/01/28-12:15:00.105 10fc2f Reusing old log /mnt/projetos/hermesx/chrome_data/Default/Local Storage/leveldb/000016.log 
+2025/01/28-12:15:48.784 10fc31 Level-0 table #20: started
+2025/01/28-12:15:48.834 10fc31 Level-0 table #20: 16541 bytes OK

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-8">
+    <!-- Hero Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
+            Revolucione sua comunicação! 🚀
+        </h1>
+        <p class="text-gray-600 text-lg mb-6">
+            Envie mensagens personalizadas no WhatsApp de forma rápida e eficiente
+        </p>
+        <div class="flex justify-center space-x-4">
+            <div class="p-2 bg-green-100 rounded-lg">
+                <span class="text-green-600">✔ Envio Individual</span>
+            </div>
+            <div class="p-2 bg-blue-100 rounded-lg">
+                <span class="text-blue-600">📁 Envio em Massa</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo das Abas -->
+    <div id="individual-content" class="tab-content">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                👤 Envio Individual
+            </h2>
+            <form method="POST" id="individual-form">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Nome do Contato</label>
+                        <input type="text" name="nome" 
+                            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="Ex: João Silva" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">País</label>
+                        <select name="country_code" 
+                                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                                required>
+                            {% for country in countries %}
+                            <option value="{{ country.code }}" 
+                                    {% if country.code == '55' %}selected{% endif %}>
+                                {{ country.name }} (+{{ country.code }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 mb-2">Número WhatsApp</label>
+                        <div class="flex">
+                            <div class="flex-none w-24 mr-2">
+                                <input type="text" id="selected_code" 
+                                    class="w-full p-3 border rounded-lg bg-gray-100" 
+                                    value="+55" readonly>
+                            </div>
+                            <input type="tel" name="numero" 
+                                class="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                                placeholder="Digite apenas números" required>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Digite apenas os números, sem o código do país
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-gray-700 mb-2">Mensagem</label>
+                    <textarea name="message" rows="5"
+                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                        placeholder="Escreva aqui a mensagem que será enviada..." required></textarea>
+                </div>
+
+                <button type="submit" name="individual_submit" 
+                    class="whatsapp-green text-white px-8 py-3 rounded-lg font-medium mt-6 hover:bg-[#128C7E] transition">
+                    📤 Enviar Mensagem
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="grupo-content" class="tab-content hidden">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">👥 Envio em Grupo</h2>
+            <form method="POST" enctype="multipart/form-data" id="group-form">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">País dos Contatos</label>
+                        <select name="country_code" 
+                                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                                required>
+                            {% for country in countries %}
+                            <option value="{{ country.code }}" 
+                                    {% if country.code == '55' %}selected{% endif %}>
+                                {{ country.name }} (+{{ country.code }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Selecione o país para validação correta dos números
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-2">Arquivo CSV</label>
+                        <div class="flex items-center space-x-4">
+                            <div class="relative w-full">
+                                <input type="file" name="file" accept=".csv" id="arquivo"
+                                    class="hidden">
+                                <label for="arquivo" 
+                                    class="cursor-pointer inline-flex items-center px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-lg hover:bg-green-200">
+                                    Escolher Arquivo
+                                </label>
+                                <span id="arquivo-selecionado" class="ml-3 text-sm text-gray-500">
+                                    Nenhum arquivo selecionado
+                                </span>
+                            </div>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">
+                            O arquivo CSV deve ter as colunas "nome" e "numero" no cabeçalho
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-2">Mensagem para Todos</label>
+                        <textarea name="message" rows="5"
+                            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
+                            placeholder="Escreva aqui a mensagem que será enviada para todos os contatos..." required></textarea>
+                    </div>
+
+                    <button type="submit" name="group_submit" 
+                        class="whatsapp-green text-white px-8 py-3 rounded-lg font-medium hover:bg-[#128C7E] transition">
+                        📤 Iniciar Envio em Massa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.querySelectorAll('select[name="country_code"]');
+    const codeDisplay = document.getElementById('selected_code');
+    
+    // Função para atualizar o código exibido
+    function updateDisplayedCode(select) {
+        const option = select.options[select.selectedIndex];
+        const code = option.text.match(/\+(\d+)/)[1];
+        if (codeDisplay) {
+            codeDisplay.value = '+' + code;
+        }
+    }
+    
+    // Adiciona listeners para todos os selects de país
+    countrySelect.forEach(select => {
+        updateDisplayedCode(select);
+        select.addEventListener('change', function() {
+            updateDisplayedCode(this);
+        });
+    });
+});
+
+document.getElementById('arquivo').addEventListener('change', function(e) {
+    var fileName = e.target.files[0] ? e.target.files[0].name : 'Nenhum arquivo selecionado';
+    document.getElementById('arquivo-selecionado').textContent = fileName;
+});
+</script>
+{% endblock %}
