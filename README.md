@@ -7,7 +7,7 @@
 
 [English](#english) | [Português](#português)
 
-# English [EN]
+# English
 ## Overview
 HermesX is a powerful WhatsApp automation platform that enables automated message sending through WhatsApp Web. Built with Flask and Selenium, it provides a user-friendly interface for sending individual messages or bulk messaging through CSV file uploads. Perfect for businesses and organizations needing to manage customer communications efficiently.
 
@@ -160,7 +160,7 @@ This means:
 
 ---
 
-# Português [PT]
+# Português
 
 ## Visão Geral
 HermesX é uma poderosa plataforma de automação do WhatsApp que permite o envio automatizado de mensagens através do WhatsApp Web. Construída com Flask e Selenium, oferece uma interface amigável para envio de mensagens individuais ou em massa através de ficheiros CSV. Perfeita para empresas e organizações que necessitam gerir comunicações com clientes de forma eficiente.
