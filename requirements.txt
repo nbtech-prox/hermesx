@@ -1,6 +1,6 @@
-Flask
-selenium
+Flask==3.0.0
+selenium==4.16.0
 python-dotenv
-webdriver-manager
+webdriver-manager==4.0.1
 urllib3
 pandas
