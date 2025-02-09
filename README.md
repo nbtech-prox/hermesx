@@ -5,7 +5,6 @@
 [![Flask](https://img.shields.io/badge/Flask-2.x-green.svg)](https://flask.palletsprojects.com/)
 [![Selenium](https://img.shields.io/badge/Selenium-4.x-orange.svg)](https://www.selenium.dev/)
 
-[English](#english) | [Português](#português)
 
 # English
 ## Overview
