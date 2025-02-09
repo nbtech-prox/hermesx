@@ -1,6 +1,0 @@
-2025/01/28-11:58:01.754 10e18c Reusing MANIFEST /mnt/projetos/sendzap/chrome_data/Default/Local Storage/leveldb/MANIFEST-000001
-2025/01/28-11:58:01.758 10e18c Recovering log #13
-2025/01/28-11:58:01.758 10e18c Reusing old log /mnt/projetos/sendzap/chrome_data/Default/Local Storage/leveldb/000013.log 
-2025/01/28-11:59:01.760 10e18d Level-0 table #17: started
-2025/01/28-11:59:01.797 10e18d Level-0 table #17: 16271 bytes OK
-2025/01/28-11:59:01.848 10e18d Delete type=0 #13
