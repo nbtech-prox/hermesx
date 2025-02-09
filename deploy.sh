@@ -35,6 +35,7 @@ echo -e "${BLUE}[6/7]${NC} Configurando Apache..."
 sudo a2enmod ssl
 sudo a2enmod headers
 sudo a2enmod wsgi
+sudo a2enmod rewrite
 sudo a2ensite hermesx.conf
 
 echo -e "${BLUE}[7/7]${NC} Obtendo certificado SSL..."
