@@ -7,27 +7,16 @@ import time
 from typing import Optional
 import os
 import shutil
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 class WhatsAppSender:
     def __init__(self):
         self.driver: Optional[webdriver.Chrome] = None
         self.last_message_time = 0
         self.rate_limit_delay = 3
-        self.user_data_dir = '/tmp/chrome_data'
-        self.ensure_chrome_dir()
-
-    def ensure_chrome_dir(self):
-        """Garante que o diretório do Chrome existe e tem as permissões corretas."""
-        try:
-            if os.path.exists(self.user_data_dir):
-                shutil.rmtree(self.user_data_dir)
-            os.makedirs(self.user_data_dir, mode=0o755)
-            # Garante que www-data é o dono
-            os.system(f'chown -R www-data:www-data {self.user_data_dir}')
-        except Exception as e:
-            print(f"Erro ao configurar diretório Chrome: {str(e)}")
+        self.user_data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'chrome_data'))
+        if not os.path.exists(self.user_data_dir):
+            os.makedirs(self.user_data_dir)
+            print(f"Diretório de dados criado: {self.user_data_dir}")
 
     def cleanup(self):
         """Limpa recursos do driver."""
@@ -37,10 +26,6 @@ class WhatsAppSender:
             except:
                 pass
             self.driver = None
-        try:
-            shutil.rmtree(self.user_data_dir)
-        except:
-            pass
 
     def __del__(self):
         """Destrutor para garantir que os recursos sejam liberados."""
@@ -53,29 +38,16 @@ class WhatsAppSender:
 
         print(f"Inicializando Chrome com diretório: {self.user_data_dir}")
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
+        options.add_argument(f'--user-data-dir={self.user_data_dir}')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--disable-gpu')
-        options.add_argument('--disable-software-rasterizer')
         options.add_argument('--window-size=1920,1080')
-        options.add_argument('--disable-extensions')
-        options.add_argument('--disable-notifications')
-        options.add_argument(f'--user-data-dir={self.user_data_dir}')
-        options.add_argument('--disable-infobars')
-        options.add_argument('--disable-dev-tools')
-        options.add_argument('--no-first-run')
-        options.add_argument('--no-default-browser-check')
-        options.add_argument('--disable-blink-features=AutomationControlled')
-        options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
-        options.add_experimental_option('useAutomationExtension', False)
+        options.add_argument('--start-maximized')
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
         
         try:
-            service = Service(ChromeDriverManager().install())
-            self.driver = webdriver.Chrome(service=service, options=options)
-            self.driver.execute_cdp_cmd('Network.setUserAgentOverride', {
-                "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-            })
+            self.driver = webdriver.Chrome(options=options)
             self.driver.get('https://web.whatsapp.com')
             # Aguarda a página carregar
             WebDriverWait(self.driver, 30).until(
@@ -239,7 +211,7 @@ class WhatsAppSender:
                     except:
                         pass
                     return False, "Não foi possível encontrar o botão de enviar"
-                
+            
             except Exception as e:
                 error_msg = str(e)
                 print(f"Erro: {error_msg}")
@@ -262,13 +234,13 @@ class WhatsAppSender:
 # Instância global
 _sender = None
 
-def get_sender() -> WhatsAppSender:
+def get_sender():
     """Retorna uma instância única do WhatsAppSender."""
     global _sender
     if _sender is None:
         _sender = WhatsAppSender()
     return _sender
 
-def send_whatsapp_message(number: str, message: str) -> tuple[bool, str]:
+def send_whatsapp_message(number: str, message: str):
     """Função de conveniência para enviar mensagem."""
     return get_sender().send_message(number, message)
