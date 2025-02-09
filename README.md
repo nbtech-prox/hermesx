@@ -7,7 +7,7 @@
 
 [English](#english) | [Português](#português)
 
-# English [EN]
+# English
 ## Overview
 HermesX is a powerful WhatsApp automation platform that enables automated message sending through WhatsApp Web. Built with Flask and Selenium, it provides a user-friendly interface for sending individual messages or bulk messaging through CSV file uploads. Perfect for businesses and organizations needing to manage customer communications efficiently.
 
@@ -90,8 +90,8 @@ python run.py
 1. Prepare your CSV file with columns:
    ```csv
    nome,numero
-   João Silva,351919999999
-   Maria Santos,351968888888
+   João Silva, 919999999
+   Maria Santos, 968888888
    ```
 2. Upload the CSV file
 3. Type your message
@@ -160,7 +160,7 @@ This means:
 
 ---
 
-# Português [PT]
+# Português
 
 ## Visão Geral
 HermesX é uma poderosa plataforma de automação do WhatsApp que permite o envio automatizado de mensagens através do WhatsApp Web. Construída com Flask e Selenium, oferece uma interface amigável para envio de mensagens individuais ou em massa através de ficheiros CSV. Perfeita para empresas e organizações que necessitam gerir comunicações com clientes de forma eficiente.
@@ -244,8 +244,8 @@ python run.py
 1. Prepare o seu ficheiro CSV com as colunas:
    ```csv
    nome,numero
-   João Silva,351919999999
-   Maria Santos,351968888888
+   João Silva,919999999
+   Maria Santos,968888888
    ```
 2. Faça upload do ficheiro CSV
 3. Digite a sua mensagem
@@ -314,4 +314,4 @@ Isto significa:
 
 ---
 
-Made with by NBTech 
+Made with ❤️ by Nuno Batista - NBTech 
